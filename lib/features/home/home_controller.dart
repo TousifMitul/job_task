@@ -7,32 +7,47 @@ import '../../helpers/date_time_helper.dart';
 
 class HomeController extends ChangeNotifier {
   final List<AlarmModel> _alarms = [];
-  final FlutterLocalNotificationsPlugin _notificationsPlugin =
+ static final FlutterLocalNotificationsPlugin notificationsPlugin =
   FlutterLocalNotificationsPlugin();
 
   List<AlarmModel> get alarms => List.unmodifiable(_alarms);
 
-  HomeController() {
-    _initTimeZone();
-    _initNotifications();
-  }
 
-  void _initTimeZone() {
+ static void initTimeZone() {
     tz.initializeTimeZones();
   }
 
-  Future<void> _initNotifications() async {
+  static void init() async {
     const AndroidInitializationSettings androidSettings =
     AndroidInitializationSettings('@mipmap/ic_launcher');
+
     const DarwinInitializationSettings iosSettings =
     DarwinInitializationSettings();
+
     const InitializationSettings settings = InitializationSettings(
       android: androidSettings,
       iOS: iosSettings,
     );
 
-    await _notificationsPlugin.initialize(settings: settings);
+    await notificationsPlugin.initialize(settings: settings);
+
+    const AndroidNotificationChannel channel = AndroidNotificationChannel(
+      'travel_noti',
+      'Travel notification',
+      description: 'This channel is for travel alarms',
+      importance: Importance.max,
+    );
+
+    await notificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin
+    >()
+        ?.createNotificationChannel(channel);
+
+    tz.initializeTimeZones();
   }
+
+
 
   void addAlarm(DateTime date, TimeOfDay time) {
     final dateTime = DateTimeHelper.combineDateAndTime(date, time);
@@ -53,7 +68,7 @@ class HomeController extends ChangeNotifier {
     // Convert DateTime to TZDateTime
     final tzDateTime = _convertToTZ(alarm.dateTime);
 
-    await _notificationsPlugin.zonedSchedule(
+    await notificationsPlugin.zonedSchedule(
       id: int.parse(alarm.id),
       title: 'Travel Alarm',
       body:
@@ -61,12 +76,9 @@ class HomeController extends ChangeNotifier {
       scheduledDate: tzDateTime,
       notificationDetails: const NotificationDetails(
         android: AndroidNotificationDetails(
-          'alarm_channel',
-          'Travel Alarms',
-          channelDescription: 'Channel for travel alarm notifications',
-          importance: Importance.high,
-          priority: Priority.high,
-          fullScreenIntent: true,
+          'travel_noti',
+          'Travel notification',
+          importance: Importance.max,
         ),
         iOS: DarwinNotificationDetails(),
       ),
@@ -94,11 +106,11 @@ class HomeController extends ChangeNotifier {
 
   // Optional: Cancel a specific notification
   Future<void> cancelAlarmNotification(String id) async {
-    await _notificationsPlugin.cancel(id: int.parse(id));
+    await notificationsPlugin.cancel(id: int.parse(id));
   }
 
   // Optional: Cancel all notifications
   Future<void> cancelAllNotifications() async {
-    await _notificationsPlugin.cancelAll();
+    await notificationsPlugin.cancelAll();
   }
 }

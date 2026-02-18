@@ -4,8 +4,8 @@ import 'app_colors.dart';
 class AppTextStyles {
   // Headings
   static const TextStyle heading1 = TextStyle(
-    fontSize: 24,
-    fontWeight: FontWeight.bold,
+    fontSize: 30,
+    fontWeight: FontWeight.normal,
     color: AppColors.textPrimary,
     height: 1.3,
     fontFamily: 'Poppins',

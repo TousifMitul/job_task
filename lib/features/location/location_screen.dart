@@ -5,7 +5,6 @@ import '../../common_widgets/custom_button.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_strings.dart';
 import '../../constants/app_text_styles.dart';
-import '../../helpers/navigation_helper.dart';
 import '../home/home_screen.dart';
 
 class LocationScreen extends StatelessWidget {
@@ -18,23 +17,13 @@ class LocationScreen extends StatelessWidget {
       child: Consumer<LocationController>(
         builder: (context, controller, _) {
           return Scaffold(
-            backgroundColor: Colors.white,
-            appBar: AppBar(
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () => Navigator.pop(context),
-              ),
-              title: Text(
-                AppStrings.locationTitle,
-                style: AppTextStyles.appBarTitle,
-              ),
-            ),
+            backgroundColor: Colors.indigo[900],
             body: Padding(
               padding: const EdgeInsets.all(24.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 100),
                   Text(
                     AppStrings.welcomeText,
                     style: AppTextStyles.heading1,
@@ -45,13 +34,18 @@ class LocationScreen extends StatelessWidget {
                     style: AppTextStyles.bodyText2,
                   ),
                   const SizedBox(height: 40),
+                  Image.asset("assets/placeholder.png" ),
+                  Text(
+                    AppStrings.locationTitle,
+                    style: AppTextStyles.locationTitle,
+                  ),
                   GestureDetector(
                     onTap: () => controller.getLocation(context),
                     child: Container(
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.borderColor),
+                        border: Border.all(color: Colors.transparent),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Row(
@@ -59,7 +53,7 @@ class LocationScreen extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.my_location,
-                            color: AppColors.primary,
+                            color: Colors.white,
                           ),
                           const SizedBox(width: 8),
                           Text(
