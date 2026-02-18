@@ -42,7 +42,7 @@ class AlarmTile extends StatelessWidget {
           Switch(
             value: alarm.isActive,
             onChanged: onToggle,
-            activeColor: AppColors.primary,
+            activeThumbColor: AppColors.primary,
           ),
         ],
       ),

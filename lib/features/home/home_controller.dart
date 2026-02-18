@@ -31,7 +31,7 @@ class HomeController extends ChangeNotifier {
       iOS: iosSettings,
     );
 
-    await _notificationsPlugin.initialize(settings);
+    await _notificationsPlugin.initialize(settings: settings);
   }
 
   void addAlarm(DateTime date, TimeOfDay time) {
@@ -54,11 +54,12 @@ class HomeController extends ChangeNotifier {
     final tzDateTime = _convertToTZ(alarm.dateTime);
 
     await _notificationsPlugin.zonedSchedule(
-      int.parse(alarm.id),
-      'Smart Travel Alarm',
+      id: int.parse(alarm.id),
+      title: 'Travel Alarm',
+      body:
       'Time for your travel alarm!',
-      tzDateTime,
-      const NotificationDetails(
+      scheduledDate: tzDateTime,
+      notificationDetails: const NotificationDetails(
         android: AndroidNotificationDetails(
           'alarm_channel',
           'Travel Alarms',
@@ -70,8 +71,7 @@ class HomeController extends ChangeNotifier {
         iOS: DarwinNotificationDetails(),
       ),
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      uiLocalNotificationDateInterpretation:
-      UILocalNotificationDateInterpretation.absoluteTime,
+
     );
   }
 
@@ -94,7 +94,7 @@ class HomeController extends ChangeNotifier {
 
   // Optional: Cancel a specific notification
   Future<void> cancelAlarmNotification(String id) async {
-    await _notificationsPlugin.cancel(int.parse(id));
+    await _notificationsPlugin.cancel(id: int.parse(id));
   }
 
   // Optional: Cancel all notifications
