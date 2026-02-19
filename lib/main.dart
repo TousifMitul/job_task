@@ -17,5 +17,4 @@ void main () async{
 
  await androidImplementation?.requestNotificationsPermission();
   runApp( MyApp());
-
 }
