@@ -8,7 +8,8 @@ import 'app.dart';
 void main () async{
  WidgetsFlutterBinding.ensureInitialized();
  HomeController.init();
- HomeController.initTimeZone();
+ HomeController.initTimeZone()
+
  final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
  HomeController.notificationsPlugin
      .resolvePlatformSpecificImplementation<
