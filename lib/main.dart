@@ -9,7 +9,6 @@ void main () async{
  WidgetsFlutterBinding.ensureInitialized();
  HomeController.init();
  HomeController.initTimeZone();
-
  final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
  HomeController.notificationsPlugin
      .resolvePlatformSpecificImplementation<
